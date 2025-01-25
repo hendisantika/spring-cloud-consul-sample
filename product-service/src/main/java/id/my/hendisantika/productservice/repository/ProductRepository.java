@@ -4,6 +4,7 @@ import id.my.hendisantika.productservice.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,5 +29,13 @@ public class ProductRepository {
     public Product update(Product product) {
         products.set(product.getId().intValue() - 1, product);
         return product;
+    }
+
+    public Product findById(Long id) {
+        Optional<Product> product = products.stream().filter(p -> p.getId().equals(id)).findFirst();
+        if (product.isPresent())
+            return product.get();
+        else
+            return null;
     }
 }
