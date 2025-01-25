@@ -24,4 +24,10 @@ public class OrderRepository {
         orders.add(order);
         return order;
     }
+
+    public Order update(Order order) {
+        orders.set(order.getId().intValue() - 1, order);
+        return order;
+    }
+
 }
