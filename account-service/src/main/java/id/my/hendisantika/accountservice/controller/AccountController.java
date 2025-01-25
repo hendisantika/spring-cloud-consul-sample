@@ -7,6 +7,7 @@ import id.my.hendisantika.accountservice.model.Account;
 import id.my.hendisantika.accountservice.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -54,5 +55,10 @@ public class AccountController {
         account.setBalance(account.getBalance() - amount);
         log.info("Current balance: {}", mapper.writeValueAsString(Collections.singletonMap("balance", account.getBalance())));
         return accountRepository.update(account);
+    }
+
+    @GetMapping("/{id}")
+    public Account findById(@PathVariable("id") Long id) {
+        return accountRepository.findById(id);
     }
 }
