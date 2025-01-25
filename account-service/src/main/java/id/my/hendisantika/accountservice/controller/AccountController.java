@@ -6,6 +6,7 @@ import id.my.hendisantika.accountservice.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,5 +33,10 @@ public class AccountController {
     @PostMapping("/")
     public Account add(@RequestBody Account account) {
         return accountRepository.add(account);
+    }
+
+    @PutMapping
+    public Account update(@RequestBody Account account) {
+        return accountRepository.update(account);
     }
 }
