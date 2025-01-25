@@ -60,4 +60,9 @@ public class CustomerController {
         c.setAccounts(accounts);
         return c;
     }
+
+    @PostMapping("/ids")
+    public List<Customer> find(@RequestBody List<Long> ids) {
+        return repository.find(ids);
+    }
 }
