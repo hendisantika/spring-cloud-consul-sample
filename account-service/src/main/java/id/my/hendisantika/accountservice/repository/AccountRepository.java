@@ -29,4 +29,11 @@ public class AccountRepository {
         accounts.set(account.getId().intValue() - 1, account);
         return account;
     }
+
+    public Account findById(Long id) {
+        return accounts.stream()
+                .filter(a -> a.getId().equals(id))
+                .findFirst()
+                .orElseThrow();
+    }
 }
