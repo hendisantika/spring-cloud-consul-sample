@@ -14,11 +14,14 @@ import id.my.hendisantika.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -68,5 +71,20 @@ public class OrderController {
         }
         Map<String, String> m = MDC.getCopyOfContextMap();
         return repository.add(order);
+    }
+
+    @PutMapping("/{id}")
+    public Order accept(@PathVariable Long id) throws JsonProcessingException {
+        final Order order = repository.findById(id);
+        log.info("Order found: {}", mapper.writeValueAsString(order));
+        accountClient.withdraw(order.getAccountId(), order.getPrice());
+        HashMap<String, Object> log1 = new HashMap<>();
+        log1.put("accountId", order.getAccountId());
+        log1.put("price", order.getPrice());
+        log.info("Account modified: {}", mapper.writeValueAsString(log));
+        order.setStatus(OrderStatus.DONE);
+        log.info("Order status changed: {}", mapper.writeValueAsString(Collections.singletonMap("status", order.getStatus())));
+        repository.update(order);
+        return order;
     }
 }
