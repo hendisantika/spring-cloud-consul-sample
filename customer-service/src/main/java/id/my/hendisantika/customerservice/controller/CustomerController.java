@@ -1,7 +1,9 @@
 package id.my.hendisantika.customerservice.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import id.my.hendisantika.customerservice.client.AccountClient;
+import id.my.hendisantika.customerservice.model.Account;
 import id.my.hendisantika.customerservice.model.Customer;
 import id.my.hendisantika.customerservice.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -46,5 +50,14 @@ public class CustomerController {
     @GetMapping("/{id}")
     public Customer findById(@PathVariable("id") Long id) {
         return repository.findById(id);
+    }
+
+    @GetMapping("/withAccounts/{id}")
+    public Customer findByIdWithAccounts(@PathVariable("id") Long id) throws JsonProcessingException {
+        List<Account> accounts = accountClient.findByCustomer(id);
+        log.info("Accounts found: {}", mapper.writeValueAsString(accounts));
+        Customer c = repository.findById(id);
+        c.setAccounts(accounts);
+        return c;
     }
 }
