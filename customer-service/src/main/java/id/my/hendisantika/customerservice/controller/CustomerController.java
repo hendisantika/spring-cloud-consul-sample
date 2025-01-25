@@ -6,6 +6,8 @@ import id.my.hendisantika.customerservice.model.Customer;
 import id.my.hendisantika.customerservice.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,5 +41,10 @@ public class CustomerController {
     @PutMapping
     public Customer update(@RequestBody Customer customer) {
         return repository.update(customer);
+    }
+
+    @GetMapping("/{id}")
+    public Customer findById(@PathVariable("id") Long id) {
+        return repository.findById(id);
     }
 }
