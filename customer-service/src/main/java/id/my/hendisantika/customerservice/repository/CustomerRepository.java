@@ -24,4 +24,9 @@ public class CustomerRepository {
         customers.add(customer);
         return customer;
     }
+
+    public Customer update(Customer customer) {
+        customers.set(customer.getId().intValue() - 1, customer);
+        return customer;
+    }
 }
