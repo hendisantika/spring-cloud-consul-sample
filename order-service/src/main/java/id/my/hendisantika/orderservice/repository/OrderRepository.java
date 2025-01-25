@@ -42,4 +42,7 @@ public class OrderRepository {
         return orders.stream().filter(p -> ids.contains(p.getId())).toList();
     }
 
+    public int countByCustomerId(Long customerId) {
+        return (int) orders.stream().filter(p -> p.getCustomerId().equals(customerId)).count();
+    }
 }
