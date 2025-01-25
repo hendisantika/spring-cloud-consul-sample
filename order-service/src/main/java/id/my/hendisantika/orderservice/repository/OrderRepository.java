@@ -37,4 +37,9 @@ public class OrderRepository {
     public void delete(Long id) {
         orders.remove(id.intValue());
     }
+
+    public List<Order> find(List<Long> ids) {
+        return orders.stream().filter(p -> ids.contains(p.getId())).toList();
+    }
+
 }
