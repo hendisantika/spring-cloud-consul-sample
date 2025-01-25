@@ -1,14 +1,19 @@
 package id.my.hendisantika.accountservice.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import id.my.hendisantika.accountservice.exception.BalanceNotEnoughException;
 import id.my.hendisantika.accountservice.model.Account;
 import id.my.hendisantika.accountservice.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collections;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,6 +42,17 @@ public class AccountController {
 
     @PutMapping
     public Account update(@RequestBody Account account) {
+        return accountRepository.update(account);
+    }
+
+    @PutMapping("/withdraw/{id}/{amount}")
+    public Account withdraw(@PathVariable("id") Long id, @PathVariable("amount") int amount) throws JsonProcessingException {
+        Account account = accountRepository.findById(id);
+        if (amount > account.getBalance())
+            throw new BalanceNotEnoughException("Not enough funds: id=" + id + ", amount=" + amount);
+        log.info("Account found: {}", mapper.writeValueAsString(account));
+        account.setBalance(account.getBalance() - amount);
+        log.info("Current balance: {}", mapper.writeValueAsString(Collections.singletonMap("balance", account.getBalance())));
         return accountRepository.update(account);
     }
 }
