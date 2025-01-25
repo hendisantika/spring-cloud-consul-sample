@@ -2,9 +2,12 @@ package id.my.hendisantika.customerservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import id.my.hendisantika.customerservice.client.AccountClient;
+import id.my.hendisantika.customerservice.model.Customer;
 import id.my.hendisantika.customerservice.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -26,4 +29,9 @@ public class CustomerController {
     private final AccountClient accountClient;
     private final CustomerRepository repository;
     private final ObjectMapper mapper = new ObjectMapper();
+
+    @PostMapping("/")
+    public Customer add(@RequestBody Customer customer) {
+        return repository.add(customer);
+    }
 }
