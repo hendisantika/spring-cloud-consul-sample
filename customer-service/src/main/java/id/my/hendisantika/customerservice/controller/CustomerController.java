@@ -8,6 +8,7 @@ import id.my.hendisantika.customerservice.model.Customer;
 import id.my.hendisantika.customerservice.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,35 +35,40 @@ import java.util.List;
 public class CustomerController {
 
     private final AccountClient accountClient;
-    private final CustomerRepository repository;
+    private final CustomerRepository customerRepository;
     private final ObjectMapper mapper = new ObjectMapper();
 
     @PostMapping("/")
     public Customer add(@RequestBody Customer customer) {
-        return repository.add(customer);
+        return customerRepository.add(customer);
     }
 
     @PutMapping
     public Customer update(@RequestBody Customer customer) {
-        return repository.update(customer);
+        return customerRepository.update(customer);
     }
 
     @GetMapping("/{id}")
     public Customer findById(@PathVariable("id") Long id) {
-        return repository.findById(id);
+        return customerRepository.findById(id);
     }
 
     @GetMapping("/withAccounts/{id}")
     public Customer findByIdWithAccounts(@PathVariable("id") Long id) throws JsonProcessingException {
         List<Account> accounts = accountClient.findByCustomer(id);
         log.info("Accounts found: {}", mapper.writeValueAsString(accounts));
-        Customer c = repository.findById(id);
+        Customer c = customerRepository.findById(id);
         c.setAccounts(accounts);
         return c;
     }
 
     @PostMapping("/ids")
     public List<Customer> find(@RequestBody List<Long> ids) {
-        return repository.find(ids);
+        return customerRepository.find(ids);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Long id) {
+        customerRepository.delete(id);
     }
 }
