@@ -5,6 +5,7 @@ import id.my.hendisantika.productservice.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -41,5 +42,9 @@ public class ProductRepository {
 
     public void delete(Long id) {
         products.remove(id.intValue());
+    }
+
+    public List<Product> find(List<Long> ids) {
+        return products.stream().filter(p -> ids.contains(p.getId())).collect(Collectors.toList());
     }
 }
