@@ -19,4 +19,9 @@ import java.util.List;
 public class AccountRepository {
     private final List<Account> accounts = new ArrayList<>();
 
+    public Account add(Account account) {
+        account.setId((long) (accounts.size() + 1));
+        accounts.add(account);
+        return account;
+    }
 }
