@@ -30,4 +30,8 @@ public class OrderRepository {
         return order;
     }
 
+    public Order findById(Long id) {
+        return orders.stream().filter(p -> p.getId().equals(id)).findFirst().orElseThrow();
+    }
+
 }
