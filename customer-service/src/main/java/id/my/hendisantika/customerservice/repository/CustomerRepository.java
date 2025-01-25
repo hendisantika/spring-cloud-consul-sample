@@ -40,4 +40,8 @@ public class CustomerRepository {
     public void delete(Long id) {
         customers.remove(id.intValue());
     }
+
+    public List<Customer> find(List<Long> ids) {
+        return customers.stream().filter(p -> ids.contains(p.getId())).toList();
+    }
 }
