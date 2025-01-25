@@ -40,4 +40,8 @@ public class AccountRepository {
     public void delete(Long id) {
         accounts.remove(id.intValue());
     }
+
+    public List<Account> find(List<Long> ids) {
+        return accounts.stream().filter(a -> ids.contains(a.getId())).toList();
+    }
 }
