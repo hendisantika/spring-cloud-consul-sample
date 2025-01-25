@@ -67,4 +67,9 @@ public class AccountController {
     public List<Account> findByCustomerId(@PathVariable("customerId") Long customerId) {
         return accountRepository.findByCustomer(customerId);
     }
+
+    @PostMapping("/ids")
+    public List<Account> find(@RequestBody List<Long> ids) {
+        return accountRepository.find(ids);
+    }
 }
