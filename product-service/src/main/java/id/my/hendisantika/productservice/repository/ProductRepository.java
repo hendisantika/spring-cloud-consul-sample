@@ -24,4 +24,9 @@ public class ProductRepository {
         products.add(product);
         return product;
     }
+
+    public Product update(Product product) {
+        products.set(product.getId().intValue() - 1, product);
+        return product;
+    }
 }
