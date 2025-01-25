@@ -1,5 +1,8 @@
 package id.my.hendisantika.customerservice;
 
+import id.my.hendisantika.customerservice.model.Customer;
+import id.my.hendisantika.customerservice.model.CustomerType;
+import id.my.hendisantika.customerservice.repository.CustomerRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -22,5 +25,14 @@ public class CustomerServiceApplication {
         loggingFilter.setMaxPayloadLength(1000);
         loggingFilter.setAfterMessagePrefix("REQ:");
         return loggingFilter;
+    }
+
+    @Bean
+    public CustomerRepository customerRepository() {
+        CustomerRepository repository = new CustomerRepository();
+        repository.add(new Customer("Itadori Yuji", CustomerType.NEW));
+        repository.add(new Customer("Satoru Gojo", CustomerType.REGULAR));
+        repository.add(new Customer("Suguru Geto", CustomerType.VIP));
+        return repository;
     }
 }
