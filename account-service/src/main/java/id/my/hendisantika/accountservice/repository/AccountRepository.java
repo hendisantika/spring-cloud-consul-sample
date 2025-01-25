@@ -24,4 +24,9 @@ public class AccountRepository {
         accounts.add(account);
         return account;
     }
+
+    public Account update(Account account) {
+        accounts.set(account.getId().intValue() - 1, account);
+        return account;
+    }
 }
