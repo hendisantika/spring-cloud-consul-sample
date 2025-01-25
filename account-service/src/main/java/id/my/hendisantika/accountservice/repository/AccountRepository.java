@@ -44,4 +44,8 @@ public class AccountRepository {
     public List<Account> find(List<Long> ids) {
         return accounts.stream().filter(a -> ids.contains(a.getId())).toList();
     }
+
+    public List<Account> findByCustomer(Long customerId) {
+        return accounts.stream().filter(a -> a.getCustomerId().equals(customerId)).toList();
+    }
 }
