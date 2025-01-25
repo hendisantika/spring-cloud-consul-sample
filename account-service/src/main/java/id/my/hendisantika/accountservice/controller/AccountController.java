@@ -1,10 +1,12 @@
 package id.my.hendisantika.accountservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import id.my.hendisantika.accountservice.model.Account;
 import id.my.hendisantika.accountservice.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,13 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
  * Time: 10.49
  * To change this template use File | Settings | File Templates.
  */
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class AccountController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
-
     private final ObjectMapper mapper = new ObjectMapper();
 
     private final AccountRepository accountRepository;
+
+    @PostMapping("/")
+    public Account add(@RequestBody Account account) {
+        return accountRepository.add(account);
+    }
 }
