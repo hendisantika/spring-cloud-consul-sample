@@ -87,4 +87,22 @@ public class OrderController {
         repository.update(order);
         return order;
     }
+
+    private int priceDiscount(int price, Customer customer) {
+        double discount = 0;
+        switch (customer.getType()) {
+            case REGULAR:
+                discount += 0.05;
+                break;
+            case VIP:
+                discount += 0.1;
+                break;
+
+            default:
+                break;
+        }
+        int ordersNum = repository.countByCustomerId(customer.getId());
+        discount += (ordersNum * 0.01);
+        return (int) (price - (price * discount));
+    }
 }
