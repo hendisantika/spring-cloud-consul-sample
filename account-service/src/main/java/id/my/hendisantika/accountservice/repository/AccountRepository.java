@@ -36,4 +36,8 @@ public class AccountRepository {
                 .findFirst()
                 .orElseThrow();
     }
+
+    public void delete(Long id) {
+        accounts.remove(id.intValue());
+    }
 }
