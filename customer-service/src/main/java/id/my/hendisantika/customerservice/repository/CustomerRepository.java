@@ -29,4 +29,11 @@ public class CustomerRepository {
         customers.set(customer.getId().intValue() - 1, customer);
         return customer;
     }
+
+    public Customer findById(Long id) {
+        return customers.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .orElseThrow();
+    }
 }
