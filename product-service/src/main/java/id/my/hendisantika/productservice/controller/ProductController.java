@@ -6,6 +6,7 @@ import id.my.hendisantika.productservice.model.Product;
 import id.my.hendisantika.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,23 +38,28 @@ public class ProductController {
 
     @PostMapping
     public Product add(@RequestBody Product product) {
-        return repository.add(product);
+        return productRepository.add(product);
     }
 
     @PutMapping
     public Product update(@RequestBody Product product) {
-        return repository.update(product);
+        return productRepository.update(product);
     }
 
     @GetMapping("/{id}")
     public Product findById(@PathVariable("id") Long id) {
-        return repository.findById(id);
+        return productRepository.findById(id);
     }
 
     @PostMapping("/ids")
     public List<Product> find(@RequestBody List<Long> ids) throws JsonProcessingException {
-        List<Product> products = repository.find(ids);
-        LOGGER.info("Products found: {}", mapper.writeValueAsString(Collections.singletonMap("count", products.size())));
+        List<Product> products = productRepository.find(ids);
+        log.info("Products found: {}", mapper.writeValueAsString(Collections.singletonMap("count", products.size())));
         return products;
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Long id) {
+        productRepository.delete(id);
     }
 }
