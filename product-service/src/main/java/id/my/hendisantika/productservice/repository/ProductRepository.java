@@ -18,4 +18,10 @@ import java.util.List;
  */
 public class ProductRepository {
     private final List<Product> products = new ArrayList<>();
+
+    public Product add(Product product) {
+        product.setId((long) (products.size() + 1));
+        products.add(product);
+        return product;
+    }
 }
