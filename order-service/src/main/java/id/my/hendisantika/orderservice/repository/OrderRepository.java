@@ -34,4 +34,7 @@ public class OrderRepository {
         return orders.stream().filter(p -> p.getId().equals(id)).findFirst().orElseThrow();
     }
 
+    public void delete(Long id) {
+        orders.remove(id.intValue());
+    }
 }
