@@ -18,4 +18,10 @@ import java.util.List;
  */
 public class CustomerRepository {
     private final List<Customer> customers = new ArrayList<>();
+
+    public Customer add(Customer customer) {
+        customer.setId((long) (customers.size() + 1));
+        customers.add(customer);
+        return customer;
+    }
 }
