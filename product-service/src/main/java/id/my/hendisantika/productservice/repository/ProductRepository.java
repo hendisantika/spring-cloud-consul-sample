@@ -38,4 +38,8 @@ public class ProductRepository {
         else
             return null;
     }
+
+    public void delete(Long id) {
+        products.remove(id.intValue());
+    }
 }
