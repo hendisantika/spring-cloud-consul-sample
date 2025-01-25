@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -60,5 +61,10 @@ public class AccountController {
     @GetMapping("/{id}")
     public Account findById(@PathVariable("id") Long id) {
         return accountRepository.findById(id);
+    }
+
+    @GetMapping("/customer/{customerId}")
+    public List<Account> findByCustomerId(@PathVariable("customerId") Long customerId) {
+        return accountRepository.findByCustomer(customerId);
     }
 }
