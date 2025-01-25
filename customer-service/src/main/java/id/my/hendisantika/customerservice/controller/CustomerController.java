@@ -7,6 +7,7 @@ import id.my.hendisantika.customerservice.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,5 +34,10 @@ public class CustomerController {
     @PostMapping("/")
     public Customer add(@RequestBody Customer customer) {
         return repository.add(customer);
+    }
+
+    @PutMapping
+    public Customer update(@RequestBody Customer customer) {
+        return repository.update(customer);
     }
 }
