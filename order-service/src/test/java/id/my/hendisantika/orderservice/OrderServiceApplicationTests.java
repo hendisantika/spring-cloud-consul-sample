@@ -1,5 +1,7 @@
 package id.my.hendisantika.orderservice;
 
+import id.my.hendisantika.orderservice.model.Order;
+import id.my.hendisantika.orderservice.model.OrderStatus;
 import io.specto.hoverfly.junit.core.Hoverfly;
 import io.specto.hoverfly.junit5.HoverflyExtension;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,9 +14,14 @@ import org.testcontainers.consul.ConsulContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.List;
+import java.util.Random;
+
 import static io.specto.hoverfly.junit.core.SimulationSource.dsl;
 import static io.specto.hoverfly.junit.dsl.HoverflyDsl.service;
 import static io.specto.hoverfly.junit.dsl.ResponseCreators.success;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
@@ -64,5 +71,18 @@ class OrderServiceApplicationTests {
 		);
 
 		sendAndAcceptOrder();
+	}
+
+	private void sendAndAcceptOrder() {
+		Random r = new Random();
+		Order order = new Order();
+		order.setCustomerId(1L);
+		order.setProductIds(List.of(1L));
+		order = template.postForObject("/", order, Order.class);
+		assertNotNull(order);
+		assertNotNull(order.getId());
+		assertNotSame(order.getStatus(), OrderStatus.REJECTED);
+
+		template.put("/{id}", null, order.getId());
 	}
 }
