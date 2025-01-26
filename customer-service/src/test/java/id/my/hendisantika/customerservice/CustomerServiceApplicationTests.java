@@ -65,7 +65,7 @@ class CustomerServiceApplicationTests {
     void findByIdWithAccounts(Hoverfly hoverfly) {
         hoverfly.simulate(
                 dsl(service("http://account-service")
-                        .get("/customer/1")
+                        .get("/customers/1")
                         .willReturn(success().body("[{\"id\":\"1\"}]").header("Content-Type", "application/json")))
         );
         Customer customer = restTemplate.getForObject("/withAccounts/{id}", Customer.class, 1L);
