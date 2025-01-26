@@ -13,6 +13,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Created by IntelliJ IDEA.
@@ -45,5 +46,11 @@ class AccountControllerTest {
         List<Long> ids = List.of(1L, 2L, 3L);
         Account[] accounts = restTemplate.postForObject("/ids", ids, Account[].class);
         assertEquals(3, accounts.length);
+    }
+
+    @Test
+    void findByCustomerId() {
+        Account[] accounts = restTemplate.getForObject("/customer/{customerId}", Account[].class, 1L);
+        assertTrue(accounts.length > 0);
     }
 }
