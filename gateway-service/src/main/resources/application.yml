@@ -38,6 +38,8 @@ spring:
     import: optional:consul:localhost:8500
 
 logging.level.com.netflix: DEBUG
+server:
+  port: 8082
 
 management:
   security:

@@ -11,7 +11,8 @@ spring:
 logging:
   level:
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
-
+server:
+  port: 8084
 ---
 spring:
   cloud:

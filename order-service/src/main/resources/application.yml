@@ -16,7 +16,8 @@ logging:
   pattern:
     #    console: "%d{HH:mm:ss.SSS} %-5level %msg%n"
     file: "%d{HH:mm:ss.SSS} %-5level %msg%n"
-
+server:
+  port: 8083
 ---
 spring:
   cloud:
