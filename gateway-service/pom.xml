@@ -16,6 +16,7 @@
     <properties>
         <java.version>23</java.version>
         <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
+        <lombok.version>1.18.36</lombok.version>
     </properties>
     <dependencies>
         <dependency>
@@ -29,6 +30,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
@@ -64,8 +72,33 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
