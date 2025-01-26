@@ -1,12 +1,18 @@
 package id.my.hendisantika.accountservice.controller;
 
+import id.my.hendisantika.accountservice.model.Account;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.testcontainers.consul.ConsulContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,5 +38,12 @@ class AccountControllerTest {
     static void init() {
         System.setProperty("spring.cloud.consul.port", consulContainer.getFirstMappedPort().toString());
         System.setProperty("spring.config.import", "optional:consul:localhost:" + consulContainer.getFirstMappedPort());
+    }
+
+    @Test
+    void findAll() {
+        List<Long> ids = List.of(1L, 2L, 3L);
+        Account[] accounts = restTemplate.postForObject("/ids", ids, Account[].class);
+        assertEquals(3, accounts.length);
     }
 }
