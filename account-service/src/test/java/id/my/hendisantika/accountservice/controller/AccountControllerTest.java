@@ -72,4 +72,10 @@ class AccountControllerTest {
         assertNotNull(r.getBody());
         assertEquals(r.getBody().getBalance(), 40000);
     }
+
+    @Test
+    void withdrawFailed() {
+        ResponseEntity<Account> r = restTemplate.exchange("/withdraw/2/100000", HttpMethod.PUT, null, Account.class);
+        assertEquals(500, r.getStatusCodeValue());
+    }
 }
