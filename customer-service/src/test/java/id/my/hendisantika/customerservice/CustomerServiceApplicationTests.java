@@ -1,6 +1,7 @@
 package id.my.hendisantika.customerservice;
 
 import id.my.hendisantika.customerservice.model.Customer;
+import id.my.hendisantika.customerservice.model.CustomerType;
 import io.specto.hoverfly.junit5.HoverflyExtension;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -46,5 +47,13 @@ class CustomerServiceApplicationTests {
         Customer customer = restTemplate.getForObject("/{id}", Customer.class, 1L);
         assertNotNull(customer);
         assertNotNull(customer.getId());
+    }
+
+    @Test
+    void addCustomerTest() {
+        Customer c = new Customer("John Scott", CustomerType.NEW);
+        c = restTemplate.postForObject("/", c, Customer.class);
+        assertNotNull(c);
+        assertNotNull(c.getId());
     }
 }
