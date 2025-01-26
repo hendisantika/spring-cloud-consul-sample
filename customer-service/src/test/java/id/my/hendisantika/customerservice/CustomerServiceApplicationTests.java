@@ -2,6 +2,7 @@ package id.my.hendisantika.customerservice;
 
 import id.my.hendisantika.customerservice.model.Customer;
 import id.my.hendisantika.customerservice.model.CustomerType;
+import io.specto.hoverfly.junit.core.Hoverfly;
 import io.specto.hoverfly.junit5.HoverflyExtension;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,9 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 
+import static io.specto.hoverfly.junit.core.SimulationSource.dsl;
+import static io.specto.hoverfly.junit.dsl.HoverflyDsl.service;
+import static io.specto.hoverfly.junit.dsl.ResponseCreators.success;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -55,5 +59,18 @@ class CustomerServiceApplicationTests {
         c = restTemplate.postForObject("/", c, Customer.class);
         assertNotNull(c);
         assertNotNull(c.getId());
+    }
+
+    @Test
+    void findByIdWithAccounts(Hoverfly hoverfly) {
+        hoverfly.simulate(
+                dsl(service("http://account-service")
+                        .get("/customer/1")
+                        .willReturn(success().body("[{\"id\":\"1\"}]").header("Content-Type", "application/json")))
+        );
+        Customer customer = restTemplate.getForObject("/withAccounts/{id}", Customer.class, 1L);
+        assertNotNull(customer);
+        assertNotNull(customer.getId());
+        assertEquals(1, customer.getAccounts().size());
     }
 }
