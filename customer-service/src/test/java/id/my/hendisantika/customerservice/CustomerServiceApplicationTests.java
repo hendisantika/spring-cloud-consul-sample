@@ -15,6 +15,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
@@ -38,5 +39,12 @@ class CustomerServiceApplicationTests {
         List<Long> ids = List.of(1L, 2L, 3L);
         Customer[] customers = restTemplate.postForObject("/ids", ids, Customer[].class);
         assertEquals(3, customers.length);
+    }
+
+    @Test
+    void findById() {
+        Customer customer = restTemplate.getForObject("/{id}", Customer.class, 1L);
+        assertNotNull(customer);
+        assertNotNull(customer.getId());
     }
 }
