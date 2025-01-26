@@ -1,6 +1,7 @@
 package id.my.hendisantika.gatewayservice;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -24,4 +25,10 @@ class GatewayServiceApplicationTests {
 		System.setProperty("spring.config.import", "optional:consul:localhost:" + consulContainer.getFirstMappedPort());
 	}
 
+	@Test
+	public void testOrder() throws InterruptedException {
+		for (int i = 0; i < 5; i++) {
+			sendAndAcceptOrder();
+		}
+	}
 }
