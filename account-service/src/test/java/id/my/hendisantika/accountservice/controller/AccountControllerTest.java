@@ -13,6 +13,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -52,5 +53,13 @@ class AccountControllerTest {
     void findByCustomerId() {
         Account[] accounts = restTemplate.getForObject("/customer/{customerId}", Account[].class, 1L);
         assertTrue(accounts.length > 0);
+    }
+
+    @Test
+    void addAccountTest() {
+        Account a = new Account("2234567890", 50000, 10L);
+        a = restTemplate.postForObject("/", a, Account.class);
+        assertNotNull(a);
+        assertNotNull(a.getId());
     }
 }
