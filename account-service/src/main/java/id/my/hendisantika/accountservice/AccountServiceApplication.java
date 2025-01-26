@@ -4,10 +4,12 @@ import id.my.hendisantika.accountservice.model.Account;
 import id.my.hendisantika.accountservice.repository.AccountRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 @SpringBootApplication
+@EnableDiscoveryClient
 public class AccountServiceApplication {
 
 	public static void main(String[] args) {
