@@ -1,5 +1,7 @@
 package id.my.hendisantika.gatewayservice;
 
+import id.my.hendisantika.gatewayservice.model.Order;
+import id.my.hendisantika.gatewayservice.model.OrderStatus;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
