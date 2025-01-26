@@ -18,14 +18,14 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - directory: account-service
-          - directory: customer-service
-          - directory: gateway-service
-          - directory: order-service
-          - directory: product-service
+    #    strategy:
+    #      matrix:
+    #        include:
+    #          - directory: account-service
+    #          - directory: customer-service
+    #          - directory: gateway-service
+    #          - directory: order-service
+    #          - directory: product-service
 
     steps:
     - uses: actions/checkout@v4
