@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.testcontainers.consul.ConsulContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -61,5 +63,13 @@ class AccountControllerTest {
         a = restTemplate.postForObject("/", a, Account.class);
         assertNotNull(a);
         assertNotNull(a.getId());
+    }
+
+    @Test
+    void withdrawOk() {
+        ResponseEntity<Account> r = restTemplate.exchange("/withdraw/1/10000", HttpMethod.PUT, null, Account.class);
+        assertEquals(200, r.getStatusCodeValue());
+        assertNotNull(r.getBody());
+        assertEquals(r.getBody().getBalance(), 40000);
     }
 }
