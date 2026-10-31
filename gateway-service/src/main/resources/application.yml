@@ -3,34 +3,36 @@ spring:
     name: gateway-service
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
-      routes:
-        - id: account-service
-          uri: lb://account-service
-          predicates:
-            - Path=/account/**
-          filters:
-            - RewritePath=/account/(?<path>.*), /$\{path}
-        - id: customer-service
-          uri: lb://customer-service
-          predicates:
-            - Path=/customers/**
-          filters:
-            - RewritePath=/customer/(?<path>.*), /$\{path}
-        - id: order-service
-          uri: lb://order-service
-          predicates:
-            - Path=/orders/**
-          filters:
-            - RewritePath=/order/(?<path>.*), /$\{path}
-        - id: product-service
-          uri: lb://product-service
-          predicates:
-            - Path=/products/**
-          filters:
-            - RewritePath=/product/(?<path>.*), /$\{path}
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+          routes:
+            - id: account-service
+              uri: lb://account-service
+              predicates:
+                - Path=/account/**
+              filters:
+                - RewritePath=/account/(?<path>.*), /$\{path}
+            - id: customer-service
+              uri: lb://customer-service
+              predicates:
+                - Path=/customers/**
+              filters:
+                - RewritePath=/customer/(?<path>.*), /$\{path}
+            - id: order-service
+              uri: lb://order-service
+              predicates:
+                - Path=/orders/**
+              filters:
+                - RewritePath=/order/(?<path>.*), /$\{path}
+            - id: product-service
+              uri: lb://product-service
+              predicates:
+                - Path=/products/**
+              filters:
+                - RewritePath=/product/(?<path>.*), /$\{path}
     consul:
       host: localhost
       port: 8500
