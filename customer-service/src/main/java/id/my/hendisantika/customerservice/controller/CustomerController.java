@@ -1,7 +1,6 @@
 package id.my.hendisantika.customerservice.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import id.my.hendisantika.customerservice.client.AccountClient;
 import id.my.hendisantika.customerservice.model.Account;
 import id.my.hendisantika.customerservice.model.Customer;
@@ -54,7 +53,7 @@ public class CustomerController {
     }
 
     @GetMapping("/withAccounts/{id}")
-    public Customer findByIdWithAccounts(@PathVariable("id") Long id) throws JsonProcessingException {
+    public Customer findByIdWithAccounts(@PathVariable("id") Long id) {
         List<Account> accounts = accountClient.findByCustomer(id);
         log.info("Accounts found: {}", mapper.writeValueAsString(accounts));
         Customer c = customerRepository.findById(id);

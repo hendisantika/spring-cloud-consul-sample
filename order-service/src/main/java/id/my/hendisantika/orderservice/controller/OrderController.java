@@ -1,7 +1,6 @@
 package id.my.hendisantika.orderservice.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import id.my.hendisantika.orderservice.client.AccountClient;
 import id.my.hendisantika.orderservice.client.CustomerClient;
 import id.my.hendisantika.orderservice.client.ProductClient;
@@ -49,7 +48,7 @@ public class OrderController {
     private final ObjectMapper mapper = new ObjectMapper();
 
     @PostMapping("/")
-    public Order prepare(@RequestBody Order order) throws JsonProcessingException {
+    public Order prepare(@RequestBody Order order) {
         int price = 0;
         List<Product> products = productClient.findByIds(order.getProductIds());
         log.info("Products found: {}", mapper.writeValueAsString(products));
@@ -74,7 +73,7 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public Order accept(@PathVariable Long id) throws JsonProcessingException {
+    public Order accept(@PathVariable Long id) {
         final Order order = repository.findById(id);
         log.info("Order found: {}", mapper.writeValueAsString(order));
         accountClient.withdraw(order.getAccountId(), order.getPrice());

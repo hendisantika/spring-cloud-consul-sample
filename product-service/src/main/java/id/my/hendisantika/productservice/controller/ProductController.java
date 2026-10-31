@@ -1,7 +1,6 @@
 package id.my.hendisantika.productservice.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import id.my.hendisantika.productservice.model.Product;
 import id.my.hendisantika.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +51,7 @@ public class ProductController {
     }
 
     @PostMapping("/ids")
-    public List<Product> find(@RequestBody List<Long> ids) throws JsonProcessingException {
+    public List<Product> find(@RequestBody List<Long> ids) {
         List<Product> products = productRepository.find(ids);
         log.info("Products found: {}", mapper.writeValueAsString(Collections.singletonMap("count", products.size())));
         return products;

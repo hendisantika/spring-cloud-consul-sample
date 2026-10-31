@@ -1,7 +1,6 @@
 package id.my.hendisantika.accountservice.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import id.my.hendisantika.accountservice.exception.BalanceNotEnoughException;
 import id.my.hendisantika.accountservice.model.Account;
 import id.my.hendisantika.accountservice.repository.AccountRepository;
@@ -49,7 +48,7 @@ public class AccountController {
     }
 
     @PutMapping("/withdraw/{id}/{amount}")
-    public Account withdraw(@PathVariable("id") Long id, @PathVariable("amount") int amount) throws JsonProcessingException {
+    public Account withdraw(@PathVariable("id") Long id, @PathVariable("amount") int amount) {
         Account account = accountRepository.findById(id);
         if (amount > account.getBalance())
             throw new BalanceNotEnoughException("Not enough funds: id=" + id + ", amount=" + amount);
