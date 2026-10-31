@@ -5,7 +5,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.resttestclient.TestRestTemplate;
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.testcontainers.consul.ConsulContainer;
@@ -30,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * To change this template use File | Settings | File Templates.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureTestRestTemplate
 @Testcontainers
 class AccountControllerTest {
     @Container
@@ -68,7 +70,7 @@ class AccountControllerTest {
     @Test
     void withdrawOk() {
         ResponseEntity<Account> r = restTemplate.exchange("/withdraw/1/10000", HttpMethod.PUT, null, Account.class);
-        assertEquals(200, r.getStatusCodeValue());
+        assertEquals(200, r.getStatusCode().value());
         assertNotNull(r.getBody());
         assertEquals(r.getBody().getBalance(), 40000);
     }
@@ -76,6 +78,6 @@ class AccountControllerTest {
     @Test
     void withdrawFailed() {
         ResponseEntity<Account> r = restTemplate.exchange("/withdraw/2/100000", HttpMethod.PUT, null, Account.class);
-        assertEquals(500, r.getStatusCodeValue());
+        assertEquals(500, r.getStatusCode().value());
     }
 }

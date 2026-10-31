@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.resttestclient.TestRestTemplate;
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
 import org.testcontainers.consul.ConsulContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -23,7 +24,13 @@ import static io.specto.hoverfly.junit.dsl.ResponseCreators.success;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+		properties = {
+				"spring.cloud.discovery.client.simple.instances.customer-service[0].uri=http://customer-service",
+				"spring.cloud.discovery.client.simple.instances.product-service[0].uri=http://product-service",
+				"spring.cloud.discovery.client.simple.instances.account-service[0].uri=http://account-service"
+		})
+@AutoConfigureTestRestTemplate
 @Testcontainers
 @ExtendWith(HoverflyExtension.class)
 class OrderServiceApplicationTests {
@@ -43,7 +50,7 @@ class OrderServiceApplicationTests {
 	@Test
 	public void testOrder(Hoverfly hoverfly) throws InterruptedException {
 		hoverfly.simulate(
-				dsl(service("http://customer-service")
+				dsl(service("http://customer-service:80")
 						.get("/withAccounts/1")
 						.willReturn(success().body(
 								"""
@@ -57,7 +64,7 @@ class OrderServiceApplicationTests {
 										}
 										"""
 						).header("Content-Type", "application/json"))),
-				dsl(service("http://product-service")
+				dsl(service("http://product-service:80")
 						.post("/ids").body("[1]")
 						.willReturn(success().body(
 								"""

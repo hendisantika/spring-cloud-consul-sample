@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.resttestclient.TestRestTemplate;
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
 import org.testcontainers.consul.ConsulContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -22,7 +23,11 @@ import static io.specto.hoverfly.junit.dsl.ResponseCreators.success;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+		properties = {
+				"spring.cloud.discovery.client.simple.instances.account-service[0].uri=http://account-service"
+		})
+@AutoConfigureTestRestTemplate
 @Testcontainers
 @ExtendWith(HoverflyExtension.class)
 class CustomerServiceApplicationTests {
@@ -64,9 +69,9 @@ class CustomerServiceApplicationTests {
     @Test
     void findByIdWithAccounts(Hoverfly hoverfly) {
         hoverfly.simulate(
-                dsl(service("http://account-service")
+                dsl(service("http://account-service:80")
                         .get("/customers/1")
-                        .willReturn(success().body("[{\"id\":\"1\"}]").header("Content-Type", "application/json")))
+                        .willReturn(success().body("[{\"id\":1,\"number\":\"1234567890\",\"balance\":5000}]").header("Content-Type", "application/json")))
         );
         Customer customer = restTemplate.getForObject("/withAccounts/{id}", Customer.class, 1L);
         assertNotNull(customer);

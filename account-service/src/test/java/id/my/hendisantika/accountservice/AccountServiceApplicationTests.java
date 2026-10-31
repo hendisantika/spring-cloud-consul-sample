@@ -1,6 +1,5 @@
 package id.my.hendisantika.accountservice;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 class AccountServiceApplicationTests {
 
 	@Test
-	@Ignore
 	void contextLoads() {
 	}
 
