@@ -14,7 +14,7 @@
     <name>gateway-service</name>
     <description>gateway-service</description>
     <properties>
-        <java.version>23</java.version>
+        <java.version>25</java.version>
         <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
         <lombok.version>1.18.48</lombok.version>
     </properties>
